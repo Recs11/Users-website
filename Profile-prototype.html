@@ -1,0 +1,371 @@
+import React, { useState } from 'react';
+import { Heart, MessageCircle, Share2, Users, Star, TrendingUp, Grid, List, Filter, User, Settings, Plus } from 'lucide-react';
+​
+const UseRecsProfile = () => {
+  const [activeTab, setActiveTab] = useState('recommendations');
+  const [viewMode, setViewMode] = useState('grid');
+​
+  const profile = {
+    name: 'Sarah Kim',
+    handle: '@sarahdesigns',
+    bio: 'Product Designer & Coffee Enthusiast ☕',
+    avatar: '👩‍🎨',
+    stats: {
+      recommendations: 23,
+      followers: 156,
+      following: 89,
+      timesUsed: 127
+    },
+    verified: true
+  };
+​
+  const recommendations = [
+    {
+      id: 1,
+      title: 'Notion',
+      category: 'Productivity',
+      icon: '📝',
+      rating: 5,
+      timesUsed: 23,
+      description: 'Best all-in-one workspace for design projects',
+      dateAdded: '2 days ago',
+      referralCode: 'SARAH-NOTION-2024'
+    },
+    {
+      id: 2,
+      title: 'Blue Bottle Coffee',
+      category: 'Food & Drink',
+      icon: '☕',
+      rating: 5,
+      timesUsed: 8,
+      description: 'Perfect morning brew for productivity',
+      dateAdded: '1 week ago',
+      referralCode: 'SARAH-BLUEBOTTLE-2024'
+    },
+    {
+      id: 3,
+      title: 'Allbirds Runners',
+      category: 'Fashion',
+      icon: '👟',
+      rating: 4,
+      timesUsed: 15,
+      description: 'Most comfortable shoes for walking meetings',
+      dateAdded: '2 weeks ago',
+      referralCode: 'SARAH-ALLBIRDS-2024'
+    },
+    {
+      id: 4,
+      title: 'Linear',
+      category: 'Productivity',
+      icon: '🎯',
+      rating: 5,
+      timesUsed: 31,
+      description: 'Lightning-fast issue tracking for design workflow',
+      dateAdded: '3 weeks ago',
+      referralCode: 'SARAH-LINEAR-2024'
+    },
+    {
+      id: 5,
+      title: 'AirPods Pro',
+      category: 'Tech',
+      icon: '🎧',
+      rating: 5,
+      timesUsed: 42,
+      description: 'Essential for focused design work',
+      dateAdded: '1 month ago',
+      referralCode: 'SARAH-AIRPODS-2024'
+    },
+    {
+      id: 6,
+      title: 'Atomic Habits',
+      category: 'Books',
+      icon: '📚',
+      rating: 5,
+      timesUsed: 19,
+      description: 'Changed how I approach daily routines',
+      dateAdded: '1 month ago',
+      referralCode: 'SARAH-ATOMICHABITS-2024'
+    },
+    {
+      id: 7,
+      title: "Joe's Pizza",
+      category: 'Food & Drink',
+      icon: '🍕',
+      rating: 4,
+      timesUsed: 6,
+      description: 'Best late-night design fuel in Dublin',
+      dateAdded: '2 months ago',
+      referralCode: 'SARAH-JOESPIZZA-2024'
+    },
+    {
+      id: 8,
+      title: 'Away Luggage',
+      category: 'Travel',
+      icon: '🧳',
+      rating: 5,
+      timesUsed: 12,
+      description: 'Perfect for design conference travel',
+      dateAdded: '2 months ago',
+      referralCode: 'SARAH-AWAY-2024'
+    },
+    {
+      id: 9,
+      title: 'Figma',
+      category: 'Design',
+      icon: '🎨',
+      rating: 5,
+      timesUsed: 67,
+      description: 'The only design tool you need',
+      dateAdded: '3 months ago',
+      referralCode: 'SARAH-FIGMA-2024'
+    }
+  ];
+​
+  const categories = ['All', 'Productivity', 'Food & Drink', 'Tech', 'Fashion', 'Books', 'Travel', 'Design'];
+  const [selectedCategory, setSelectedCategory] = useState('All');
+​
+  const filteredRecommendations = selectedCategory === 'All' 
+    ? recommendations 
+    : recommendations.filter(rec => rec.category === selectedCategory);
+​
+  const RecommendationGrid = () => (
+    <div className="grid grid-cols-3 gap-2">
+      {filteredRecommendations.map((rec) => (
+        <div key={rec.id} className="aspect-square bg-white border border-gray-200 rounded-lg p-3 hover:shadow-md transition-shadow cursor-pointer group">
+          <div className="h-full flex flex-col">
+            <div className="text-2xl mb-1">{rec.icon}</div>
+            <div className="flex-1">
+              <h4 className="font-semibold text-sm text-gray-800 leading-tight">{rec.title}</h4>
+              <p className="text-xs text-gray-500 mt-1">{rec.category}</p>
+            </div>
+            <div className="mt-2">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                  {[...Array(5)].map((_, i) => (
+                    <Star
+                      key={i}
+                      size={10}
+                      className={i < rec.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'}
+                    />
+                  ))}
+                </div>
+                <span className="text-xs text-blue-600 font-medium">{rec.timesUsed}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+​
+  const RecommendationList = () => (
+    <div className="space-y-4">
+      {filteredRecommendations.map((rec) => (
+        <div key={rec.id} className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+          <div className="flex items-start space-x-4">
+            <div className="text-3xl">{rec.icon}</div>
+            <div className="flex-1">
+              <div className="flex items-start justify-between">
+                <div>
+                  <h3 className="font-semibold text-gray-800">{rec.title}</h3>
+                  <span className="text-sm text-gray-500">{rec.category}</span>
+                </div>
+                <div className="text-right">
+                  <div className="flex items-center">
+                    {[...Array(5)].map((_, i) => (
+                      <Star
+                        key={i}
+                        size={14}
+                        className={i < rec.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'}
+                      />
+                    ))}
+                  </div>
+                  <span className="text-sm text-blue-600 font-medium">{rec.timesUsed} used</span>
+                </div>
+              </div>
+              <p className="text-gray-700 mt-2">{rec.description}</p>
+              <div className="flex items-center justify-between mt-3">
+                <span className="text-sm text-gray-500">{rec.dateAdded}</span>
+                <div className="flex items-center space-x-2">
+                  <button className="flex items-center space-x-1 text-gray-600 hover:text-red-500 transition-colors">
+                    <Heart size={16} />
+                    <span className="text-sm">Like</span>
+                  </button>
+                  <button className="flex items-center space-x-1 text-gray-600 hover:text-blue-500 transition-colors">
+                    <Share2 size={16} />
+                    <span className="text-sm">Share</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+​
+  return (
+    <div className="max-w-4xl mx-auto bg-gray-50 min-h-screen">
+      {/* Header */}
+      <div className="bg-white border-b border-gray-200 px-4 py-4 sticky top-0 z-10">
+        <div className="flex items-center justify-between">
+          <h1 className="text-xl font-bold text-gray-800">UseRecs</h1>
+          <div className="flex items-center space-x-3">
+            <button className="p-2 hover:bg-gray-100 rounded-full">
+              <Settings size={20} className="text-gray-600" />
+            </button>
+            <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+              <span className="text-sm">👤</span>
+            </div>
+          </div>
+        </div>
+      </div>
+​
+      {/* Profile Header */}
+      <div className="bg-white border-b border-gray-200 px-6 py-6">
+        <div className="flex items-start space-x-6">
+          <div className="text-6xl">{profile.avatar}</div>
+          <div className="flex-1">
+            <div className="flex items-center space-x-2 mb-2">
+              <h2 className="text-2xl font-bold text-gray-800">{profile.name}</h2>
+              {profile.verified && <span className="text-blue-500">✓</span>}
+            </div>
+            <p className="text-gray-600 mb-1">{profile.handle}</p>
+            <p className="text-gray-700 mb-4">{profile.bio}</p>
+            
+            {/* Stats */}
+            <div className="flex items-center space-x-6 mb-4">
+              <div className="text-center">
+                <div className="font-bold text-gray-800">{profile.stats.recommendations}</div>
+                <div className="text-sm text-gray-600">Recommendations</div>
+              </div>
+              <div className="text-center">
+                <div className="font-bold text-gray-800">{profile.stats.followers}</div>
+                <div className="text-sm text-gray-600">Followers</div>
+              </div>
+              <div className="text-center">
+                <div className="font-bold text-gray-800">{profile.stats.following}</div>
+                <div className="text-sm text-gray-600">Following</div>
+              </div>
+              <div className="text-center">
+                <div className="font-bold text-blue-600">{profile.stats.timesUsed}</div>
+                <div className="text-sm text-gray-600">Times Used</div>
+              </div>
+            </div>
+​
+            {/* Action Buttons */}
+            <div className="flex space-x-3">
+              <button className="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+                Follow
+              </button>
+              <button className="border border-gray-300 text-gray-700 px-6 py-2 rounded-lg font-medium hover:bg-gray-50 transition-colors">
+                Message
+              </button>
+              <button className="border border-gray-300 text-gray-700 px-6 py-2 rounded-lg font-medium hover:bg-gray-50 transition-colors">
+                Share Profile
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+​
+      {/* Navigation Tabs */}
+      <div className="bg-white border-b border-gray-200 px-6">
+        <div className="flex space-x-8">
+          {[
+            { id: 'recommendations', label: 'Recommendations', count: profile.stats.recommendations },
+            { id: 'used', label: 'Used by Others', count: 45 },
+            { id: 'reviews', label: 'Reviews', count: 12 },
+            { id: 'following', label: 'Following', count: profile.stats.following }
+          ].map(tab => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`py-4 px-2 border-b-2 font-medium text-sm transition-colors ${
+                activeTab === tab.id
+                  ? 'border-blue-500 text-blue-600'
+                  : 'border-transparent text-gray-600 hover:text-gray-800'
+              }`}
+            >
+              {tab.label} ({tab.count})
+            </button>
+          ))}
+        </div>
+      </div>
+​
+      {/* Content Area */}
+      <div className="px-6 py-6">
+        {activeTab === 'recommendations' && (
+          <>
+            {/* Filters and View Controls */}
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-2">
+                  <Filter size={16} className="text-gray-500" />
+                  <select
+                    value={selectedCategory}
+                    onChange={(e) => setSelectedCategory(e.target.value)}
+                    className="border border-gray-300 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    {categories.map(cat => (
+                      <option key={cat} value={cat}>{cat}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+              
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={() => setViewMode('grid')}
+                  className={`p-2 rounded-lg ${viewMode === 'grid' ? 'bg-blue-100 text-blue-600' : 'text-gray-600 hover:bg-gray-100'}`}
+                >
+                  <Grid size={16} />
+                </button>
+                <button
+                  onClick={() => setViewMode('list')}
+                  className={`p-2 rounded-lg ${viewMode === 'list' ? 'bg-blue-100 text-blue-600' : 'text-gray-600 hover:bg-gray-100'}`}
+                >
+                  <List size={16} />
+                </button>
+              </div>
+            </div>
+​
+            {/* Recommendations Content */}
+            {viewMode === 'grid' ? <RecommendationGrid /> : <RecommendationList />}
+          </>
+        )}
+​
+        {activeTab === 'used' && (
+          <div className="text-center py-12">
+            <TrendingUp size={48} className="text-gray-400 mx-auto mb-4" />
+            <h3 className="text-lg font-semibold text-gray-800 mb-2">Used by Others</h3>
+            <p className="text-gray-600">See which of Sarah's recommendations others are using</p>
+          </div>
+        )}
+​
+        {activeTab === 'reviews' && (
+          <div className="text-center py-12">
+            <MessageCircle size={48} className="text-gray-400 mx-auto mb-4" />
+            <h3 className="text-lg font-semibold text-gray-800 mb-2">Reviews</h3>
+            <p className="text-gray-600">What others say about Sarah's recommendations</p>
+          </div>
+        )}
+​
+        {activeTab === 'following' && (
+          <div className="text-center py-12">
+            <Users size={48} className="text-gray-400 mx-auto mb-4" />
+            <h3 className="text-lg font-semibold text-gray-800 mb-2">Following</h3>
+            <p className="text-gray-600">People Sarah follows for recommendations</p>
+          </div>
+        )}
+      </div>
+​
+      {/* Floating Add Button */}
+      <button className="fixed bottom-6 right-6 bg-blue-600 text-white p-4 rounded-full shadow-lg hover:bg-blue-700 transition-colors">
+        <Plus size={24} />
+      </button>
+    </div>
+  );
+};
+​
+export default UseRecsProfile;
